@@ -1,0 +1,12 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h2 class="mb-4">Добро пожаловать на сайт доставки цветов!</h2>
+    <p>Мы предлагаем самые свежие и красивые букеты для ваших близких.</p>
+    <div class="mt-4">
+        <a href="{% url 'catalog' %}" class="btn btn-custom">Перейти в каталог</a>
+        <a href="{% url 'reviews' %}" class="btn btn-outline-light">Посмотреть отзывы</a>
+    </div>
+</div>
+{% endblock %}

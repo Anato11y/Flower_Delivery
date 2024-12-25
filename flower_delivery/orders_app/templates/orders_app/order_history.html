@@ -1,0 +1,17 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+<h2>История заказов</h2>
+<ul>
+    {% for order in orders %}
+        <li>
+            Заказ №{{ order.id }} ({{ order.order_date }}) - {{ order.status }}
+            <ul>
+                {% for product in order.products.all %}
+                    <li>{{ product.name }} - {{ product.price }} ₽</li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

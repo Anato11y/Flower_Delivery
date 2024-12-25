@@ -1,0 +1,20 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Каталог товаров</h2>
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text"><strong>{{ product.price }} ₽</strong></p>
+                <a href="#" class="btn btn-custom">Добавить в корзину</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

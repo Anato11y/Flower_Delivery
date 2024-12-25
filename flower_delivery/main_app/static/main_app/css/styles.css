@@ -1,0 +1,86 @@
+/* Общий стиль для сайта */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa; /* Светлый фон */
+    color: #333; /* Основной цвет текста */
+}
+
+/* Шапка */
+/* Общий стиль для шапки и футера */
+header, footer {
+    background: linear-gradient(45deg, #265f2b, #92c087);
+    color: white;
+}
+
+header h1, footer p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+header nav a, footer a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+header nav a:hover, footer a:hover {
+    color: #ffcc00;
+}
+
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Карточки каталога */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    border-radius: 10px 10px 0 0;
+}
+
+/* Кнопки */
+.btn-custom {
+    background-color: #2575fc;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #1a61d0;
+}
+
+/* Модальное окно */
+.modal-header {
+    background-color: #6a11cb;
+    color: white;
+}
+
+.modal-footer .btn {
+    border-radius: 20px;
+}
+
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}

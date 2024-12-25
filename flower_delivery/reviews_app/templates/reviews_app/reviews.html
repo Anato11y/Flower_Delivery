@@ -1,0 +1,36 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Отзывы</h2>
+<form method="post" class="mb-5">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="product" class="form-label">Выберите товар:</label>
+        <select class="form-select" name="product_id">
+            {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="rating" class="form-label">Рейтинг:</label>
+        <input type="number" class="form-control" name="rating" min="1" max="5">
+    </div>
+    <div class="mb-3">
+        <label for="review" class="form-label">Отзыв:</label>
+        <textarea class="form-control" name="review"></textarea>
+    </div>
+    <button type="submit" class="btn btn-custom">Оставить отзыв</button>
+</form>
+
+<h3>Отзывы пользователей</h3>
+<ul class="list-group">
+    {% for review in reviews %}
+    <li class="list-group-item">
+        <strong>{{ review.product.name }}</strong> — {{ review.rating }}/5
+        <p>{{ review.review }}</p>
+        <small>Автор: {{ review.user.username }}</small>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
