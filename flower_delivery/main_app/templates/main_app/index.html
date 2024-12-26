@@ -4,30 +4,41 @@
 <div class="text-center">
     <h2 class="mb-4">Добро пожаловать на сайт доставки цветов!</h2>
     <p>Мы предлагаем самые свежие и красивые букеты для ваших близких.</p>
-    <div class="mt-4">
-        <a href="{% url 'catalog' %}" class="btn btn-custom">Перейти в каталог</a>
-        <a href="{% url 'reviews' %}" class="btn btn-outline-light">Посмотреть отзывы</a>
-    </div>
 </div>
-<div id="catalogCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+
+<!-- Карусель товаров -->
+<div id="productCarousel" class="carousel slide mt-5">
     <div class="carousel-inner">
-        {% for product in products %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ product.image.url }}" class="d-block w-100" alt="{{ product.name }}" style="height: 400px; object-fit: cover;">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>{{ product.name }}</h5>
-                <p>{{ product.description }}</p>
+        <div class="carousel-item active">
+            <div class="container">
+                <div class="row flex-nowrap" id="carousel-row">
+                    {% for product in products %}
+                    <div class="col-md-2 text-center">
+                        <div class="card h-100" style="width: 220px; height: 500px;">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 300px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text"><strong>{{ product.price }} ₽</strong></p>
+                                <a href="{% url 'catalog' %}" class="btn btn-card btn-sm mt-auto">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        {% endfor %}
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#catalogCarousel" data-bs-slide="prev">
+
+    <!-- Управление каруселью -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Предыдущий</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#catalogCarousel" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Следующий</span>
     </button>
 </div>
 {% endblock %}
+
+

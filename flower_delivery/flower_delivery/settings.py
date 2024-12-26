@@ -132,3 +132,5 @@ MEDIA_URL = '/media/'
 
 # Путь на сервере, где будут храниться загруженные файлы
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGOUT_REDIRECT_URL = '/'
