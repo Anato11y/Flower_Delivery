@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('add_to_cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
     path('login/', LoginView.as_view(template_name='main_app/login.html'), name='login'),
+    path('update_cart/', views.update_cart, name='update_cart'),
 ]

@@ -6,48 +6,112 @@
     {% for product in products %}
     <div class="col-md-4 mb-4">
         <div class="card h-100" style="width: 360px;">
-<img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="width: 250px; height: 300px; object-fit: contain; display: block; margin: 0 auto;">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="width: 250px; height: 300px; object-fit: contain; display: block; margin: 0 auto;">
 
-    <div class="card-body">
-        <h5 class="card-title">{{ product.name }}</h5>
-        <p class="card-text">{{ product.description }}</p>
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>
-                <input type="number" value="1" min="1" max="99" class="form-control" style="width: 60px;">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="mb-0"><strong>{{ product.price }} ₽</strong></p>
+
+                <!-- Блок кнопки и выбора количества -->
+                <div class="quantity-control mt-auto text-center" data-product-id="{{ product.id }}">
+                    <button class="btn btn-custom btn-sm btn-catalog">В каталог</button>
+
+                    <div class="d-none quantity-selector mt-2">
+                        <button class="btn btn-outline-secondary btn-sm decrement">-</button>
+                        <input type="number" value="1" min="1" max="99" class="form-control text-center quantity-input" style="width: 60px; display: inline-block;">
+                        <button class="btn btn-outline-secondary btn-sm increment">+</button>
+                    </div>
+                </div>
             </div>
-            <p class="mb-0"><strong>{{ product.price }} ₽</strong></p>
         </div>
-           </div>
-</div>
-
     </div>
     {% endfor %}
-
 </div>
 
+<!-- Скрипт для управления функциональностью -->
 <script>
-    // Обновление суммы при изменении количества
-    function updateTotal(button) {
-        const input = button.parentNode.querySelector('input[name="quantity"]');
-        const total = button.parentNode.querySelector('.total-price');
-        const price = parseFloat(total.getAttribute('data-price'));
-        const quantity = parseInt(input.value);
-        total.textContent = (price * quantity).toFixed(2) + " ₽";
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const catalogButtons = document.querySelectorAll('.btn-catalog');
 
-    function incrementQuantity(button) {
-        let input = button.parentNode.querySelector('input[name="quantity"]');
-        input.value = parseInt(input.value) + 1;
-        updateTotal(button);
-    }
+        catalogButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const parent = this.closest('.quantity-control');
+                const quantitySelector = parent.querySelector('.quantity-selector');
 
-    function decrementQuantity(button) {
-        let input = button.parentNode.querySelector('input[name="quantity"]');
-        if (parseInt(input.value) > 1) {
-            input.value = parseInt(input.value) - 1;
-            updateTotal(button);
+                this.classList.add('d-none');
+                quantitySelector.classList.remove('d-none');
+
+                const productId = parent.getAttribute('data-product-id');
+                updateCart(productId, 1);
+            });
+        });
+
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('decrement')) {
+                const quantityInput = event.target.nextElementSibling;
+                const parent = event.target.closest('.quantity-control');
+                const catalogButton = parent.querySelector('.btn-catalog');
+                const quantitySelector = parent.querySelector('.quantity-selector');
+                const productId = parent.getAttribute('data-product-id');
+
+                let quantity = parseInt(quantityInput.value, 10);
+                if (quantity > 1) {
+                    quantity--;
+                    quantityInput.value = quantity;
+                    updateCart(productId, quantity);
+                } else {
+                    quantityInput.value = 1;
+                    quantitySelector.classList.add('d-none');
+                    catalogButton.classList.remove('d-none');
+                    updateCart(productId, 0);
+                }
+            }
+
+            if (event.target.classList.contains('increment')) {
+                const quantityInput = event.target.previousElementSibling;
+                const parent = event.target.closest('.quantity-control');
+                const productId = parent.getAttribute('data-product-id');
+
+                let quantity = parseInt(quantityInput.value, 10) + 1;
+                quantityInput.value = quantity;
+                updateCart(productId, quantity);
+            }
+        });
+
+        function updateCart(productId, quantity) {
+            fetch(`/update_cart/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ product_id: productId, quantity: quantity }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Корзина обновлена: Товар ${productId}, Количество ${quantity}`);
+                } else {
+                    console.error('Ошибка обновления корзины');
+                }
+            });
         }
-    }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === name + '=') {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
 </script>
 {% endblock %}
 

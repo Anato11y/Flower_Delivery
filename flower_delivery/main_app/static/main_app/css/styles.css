@@ -147,6 +147,11 @@ footer {
     height: 200px;
 }
 
+.card-body .mt-auto {
+    margin-top: auto; /* Автоматически сдвигает блок кнопки вниз */
+    text-align: center; /* Центрирует кнопку по горизонтали */
+}
+
 .btn-card {
     background-color: #92c087;
     color: white;
@@ -173,4 +178,15 @@ footer {
 
 .carousel-inner {
     overflow: hidden; /* Скрываем карточки за пределами видимой области */
+}
+.btn-custom {
+    background-color: #92c087;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #6a9d6e;
 }
